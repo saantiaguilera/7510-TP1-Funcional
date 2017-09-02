@@ -1,0 +1,7 @@
+varon(juan).
+varon(pepe).
+mujer(maria).
+mujer(cecilia).
+padre(juan, pepe).
+padre(juan, maria).
+padre(pepe, cecilia).
