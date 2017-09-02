@@ -8,7 +8,7 @@
       (str/split-lines (slurp file)))
 
 (defn strip-file
-      "Get the facts/rules from an array. Output is a tuple of {[facts], [rules]}"
+      "Get the facts/rules from an array. Creates 2 global variables, 'facts' and 'rules', both arrays of strings"
       [file-lines]
       (do
             (def facts [])
