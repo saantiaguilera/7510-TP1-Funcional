@@ -1,6 +1,6 @@
 (ns parser)
 (require ['clojure.string :as 'str])
-(require ['statement :refer :all])
+(require ['statement :as 'statement])
 
 
 (defn inflate-file
@@ -17,4 +17,4 @@
             (doseq [line file-lines]
                     (if (boolean (re-find #" :- " line))
                       (def rules (conj rules line))
-                      (def facts (conj facts (parse line)))))))
+                      (def facts (conj facts (statement/parse line)))))))
