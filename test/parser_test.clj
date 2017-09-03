@@ -1,6 +1,7 @@
 (ns parser_test
     (:require [clojure.test :refer :all]
-      [parser :refer :all])
+      [parser :refer :all]
+      [statement :refer :all])
     (:import (java.io FileNotFoundException)))
 
 (deftest inflate-non-existent-file-returns-empty-vector
@@ -25,7 +26,8 @@
          (testing
            "Tests that a wellformed vector of lines is stripped correctly into facts and rules"
            (strip-file (inflate-file "./res/test_database.txt"))
-           (is (count facts) 7)
-           (is (= (get facts 0) "varon(juan)."))
-           (is (count rules) 0)
-           (is (= (get rules 0) nil))))
+           (is (count facts) 7)                             ;; Check that there are 7 facts
+           (is (= (:fact (get facts 0)) "varon"))           ;; Check that the first fact 'fact' is 'varon'
+           (is (= (:params (get facts 0) ["juan"])))        ;; Check that the first fact 'params' is 'juan'
+           (is (count rules) 0)                             ;; Check there are no rules
+           (is (= (get rules 0) nil))))                     ;; Check that the first accessed element is indeed nil

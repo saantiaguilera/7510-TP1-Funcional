@@ -1,5 +1,6 @@
 (ns parser)
 (require ['clojure.string :as 'str])
+(require ['statement :refer :all])
 
 
 (defn inflate-file
@@ -16,10 +17,4 @@
             (doseq [line file-lines]
                     (if (boolean (re-find #" :- " line))
                       (def rules (conj rules line))
-                      (def facts (conj facts line))))))
-
-(defn parse
-      "Parse a given database file into memory"
-      [database]
-      (let [file-lines (inflate-file database)]
-           )) ;; Create local scope variable with all the file lines
+                      (def facts (conj facts (parse line)))))))
