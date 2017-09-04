@@ -12,22 +12,34 @@
 (deftest inflate-existent-file-returns-vector-with-lines
          (testing
            "Tests that inflating an existent file returns a vector with the lines"
-           (is (count (inflate-file "./res/test_database.txt")) 7)
-           (is (= (get (inflate-file "./res/test_database.txt") 0)) "varon(juan).")
-           (is (= (get (inflate-file "./res/test_database.txt") 1)) "varon(pepe).")
-           (is (= (get (inflate-file "./res/test_database.txt") 2)) "mujer(maria).")
-           (is (= (get (inflate-file "./res/test_database.txt") 3)) "mujer(cecilia).")
-           (is (= (get (inflate-file "./res/test_database.txt") 4)) "padre(juan, pepe).")
-           (is (= (get (inflate-file "./res/test_database.txt") 5)) "padre(juan, maria).")
-           (is (= (get (inflate-file "./res/test_database.txt") 6)) "padre(pepe, cecilia).")
-           (is (= (get (inflate-file "./res/test_database.txt") 7)) nil)))
+           (is (count (inflate-file "./res/test_fact_database.txt")) 7)
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 0)) "varon(juan).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 1)) "varon(pepe).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 2)) "mujer(maria).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 3)) "mujer(cecilia).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 4)) "padre(juan, pepe).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 5)) "padre(juan, maria).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 6)) "padre(pepe, cecilia).")
+           (is (= (get (inflate-file "./res/test_fact_database.txt") 7)) nil)))
 
-(deftest strip-facts-and-rules-returns-them-correctly
+(deftest strip-facts-returns-them-correctly
          (testing
-           "Tests that a wellformed vector of lines is stripped correctly into facts and rules"
-           (strip-file (inflate-file "./res/test_database.txt"))
+           "Tests that a wellformed vector of lines is stripped correctly into facts"
+           (strip-file (inflate-file "./res/test_fact_database.txt"))
            (is (count facts) 7)                             ;; Check that there are 7 facts
            (is (= (:fact (get facts 0)) "varon"))           ;; Check that the first fact 'fact' is 'varon'
            (is (= (:params (get facts 0) ["juan"])))        ;; Check that the first fact 'params' is 'juan'
            (is (count rules) 0)                             ;; Check there are no rules
            (is (= (get rules 0) nil))))                     ;; Check that the first accessed element is indeed nil
+
+(deftest strip-rules-returns-them-correctly
+         (testing
+           "Tests that a wellformed vector of lines is stripped correctly into rules"
+           (strip-file (inflate-file "./res/test_rule_database.txt"))
+           (is (count rules) 2)
+           (is (= (:fact (:statement (get rules 0))) "hijo")) ;; hijo(X, Y) :- varon(X), padre(Y, X).
+           (is (= (:params (:statement (get rules 0))) ["X" "Y"]))
+           (is (= (:fact (nth (:conditions (get rules 0)) 0)) "varon"))
+           (is (= (:params (nth (:conditions (get rules 0)) 0)) ["X"]))
+           (is (= (:fact (nth (:conditions (get rules 0)) 1)) "padre"))
+           (is (= (:params (nth (:conditions (get rules 0)) 1)) ["Y" "X"]))))

@@ -1,0 +1,2 @@
+hijo(X, Y) :- varon(X), padre(Y, X).
+hija(X, Y) :- mujer(X), padre(Y, X).

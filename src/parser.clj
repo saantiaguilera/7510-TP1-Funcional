@@ -37,9 +37,9 @@
       "Validate that a fact exists in the given facts. Returns 0 if matches, 1 otherwise"
       [p-fact p-params]
       (merge-result-list-as-or (for [item facts]
-                              (if (and (= p-fact (:fact item)) (= p-params (:params item))))
+                              (if (and (= p-fact (:fact item)) (= p-params (:params item)))
                               0
-                              1)))
+                              1))))
 
 (defn validate-from-rule
       "Validate that a statement matching the statement of a given rule is correct or not. Returns 0 if valid, 1 otherwise"
@@ -70,7 +70,7 @@
                    0)
                ;; If the merged result is a 0, then a rule matched.
                "True"
-               ;; Else we will simply check in all the facts
+               ;; Else we will simply check in all the facts for someone to match it
                (if (=
                      (validate-from-facts (:fact query-statement) (:params query-statement))
                      0)
