@@ -59,3 +59,10 @@
            (is (= (merge-result-list-as-and [1 1 1 0]) 1))
            (is (= (merge-result-list-as-and [1 1 1 1]) 1))
            (is (= (merge-result-list-as-and [1 1 1 0 1]) 1))))
+
+(deftest test-validate-a-fact-from-the-list-of-facts
+         (testing
+           "Tests that a fact is valid if its in the list of facts"
+           (strip-file (inflate-file "./res/test_fact_database.txt"))
+           (is (= (validate-from-facts "padre" ["juan" "pepe"])))
+           (is (= (validate-from-facts "mujer" ["maria"])))))
