@@ -22,7 +22,7 @@
 (defn merge-result-list-as-or
       "Merges an array of results into a single value using OR. Eg: [1 1 1 0 1 1] -> 0 // [1 1 1] -> 1 // [0 0 0] -> 0"
       [list]
-      (if (= ((some #(= 0 %) list)) nil)
+      (if (= (some #(= 0 %) list) nil)
       1
       0))
 

@@ -43,3 +43,19 @@
            (is (= (:params (nth (:conditions (get rules 0)) 0)) ["X"]))
            (is (= (:fact (nth (:conditions (get rules 0)) 1)) "padre"))
            (is (= (:params (nth (:conditions (get rules 0)) 1)) ["Y" "X"]))))
+
+(deftest test-merge-results-as-or
+         (testing
+           "Tests combinations for merging a result list with an OR conj"
+           (is (= (merge-result-list-as-or [0 0 0 0]) 0))
+           (is (= (merge-result-list-as-or [1 1 1 0]) 0))
+           (is (= (merge-result-list-as-or [1 1 1 1]) 1))
+           (is (= (merge-result-list-as-or [1 1 1 0 1]) 0))))
+
+(deftest test-merge-results-as-and
+         (testing
+           "Tests combinations for merging a result list with an AND conj"
+           (is (= (merge-result-list-as-and [0 0 0 0]) 0))
+           (is (= (merge-result-list-as-and [1 1 1 0]) 1))
+           (is (= (merge-result-list-as-and [1 1 1 1]) 1))
+           (is (= (merge-result-list-as-and [1 1 1 0 1]) 1))))
