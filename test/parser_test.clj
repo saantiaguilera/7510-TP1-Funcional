@@ -103,30 +103,30 @@
          (testing
            "Tests that given a query of a fact, the one is found"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (query "mujer(maria).") "True"))
-           (is (= (query "padre(maria, juan).") "True"))
-           (is (= (query "varon(juan).") "True"))))
+           (is (= (query "mujer(maria).") true))
+           (is (= (query "padre(maria, juan).") true))
+           (is (= (query "varon(juan).") true))))
 
 (deftest test-invalid-query-with-a-fact
          (testing
            "Tests that given a query of a fact, the one is found"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (query "mujer(juana).") "False"))
-           (is (= (query "padre(juana, juan).") "False"))
-           (is (= (query "varon(maria).") "False"))))
+           (is (= (query "mujer(juana).") false))
+           (is (= (query "padre(juana, juan).") false))
+           (is (= (query "varon(maria).") false))))
 
 (deftest test-query-with-a-rule
          (testing
            "Tests that given a query from a rule, the one is found"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (query "hijo(pepe, juan).") "True"))
-           (is (= (query "hija(pepe, cecilia).") "True"))
-           (is (= (query "test(test).") "True"))))
+           (is (= (query "hijo(pepe, juan).") true))
+           (is (= (query "hija(pepe, cecilia).") true))
+           (is (= (query "test(test).") true))))
 
 (deftest test-invalid-query-with-a-rule
          (testing
            "Tests that given an invalid query from a rule, the one is found"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (query "hijo(marcos, juan).") "False"))
-           (is (= (query "nonexistentrule(pepe, cecilia).") "False"))
-           (is (= (query "test(bad).") "False"))))
+           (is (= (query "hijo(marcos, juan).") false))
+           (is (= (query "nonexistentrule(pepe, cecilia).") false))
+           (is (= (query "test(bad).") false))))

@@ -68,10 +68,10 @@
                             1)))
                    0)
                ;; If the merged result is a 0, then a rule matched.
-               "True"
+               true
                ;; Else we will simply check in all the facts for someone to match it
                (if (=
                      (validate-from-facts (:fact query-statement) (:params query-statement))
                      0)
-                 "True"
-                 "False"))))
+                 true
+                 false))))
