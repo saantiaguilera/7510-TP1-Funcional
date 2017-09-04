@@ -64,5 +64,12 @@
          (testing
            "Tests that a fact is valid if its in the list of facts"
            (strip-file (inflate-file "./res/test_fact_database.txt"))
-           (is (= (validate-from-facts "padre" ["juan" "pepe"])))
-           (is (= (validate-from-facts "mujer" ["maria"])))))
+           (is (= (validate-from-facts "padre" ["juan" "pepe"]) 0))
+           (is (= (validate-from-facts "mujer" ["maria"]) 0))))
+
+(deftest test-validate-an-invalid-fact-from-the-list-of-facts
+         (testing
+           "Tests that an invalid fact isnt valid if its not in the list of facts"
+           (strip-file (inflate-file "./res/test_fact_database.txt"))
+           (is (= (validate-from-facts "invalid" ["juan" "pepe"]) 1))
+           (is (= (validate-from-facts "mujer" ["anamarialuz"]) 1))))
