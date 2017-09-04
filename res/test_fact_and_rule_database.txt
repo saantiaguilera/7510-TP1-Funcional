@@ -6,6 +6,6 @@ padre(juan, pepe).
 padre(maria, juan).
 padre(cecilia, pepe).
 ejemplo(test).
-hijo(X, Y) :- varon(X), padre(Y, X).
-hija(X, Y) :- mujer(X), padre(Y, X).
+hijo(X, Y) :- varon(Y), padre(Y, X).
+hija(X, Y) :- mujer(Y), padre(Y, X).
 test(parametro) :- ejemplo(parametro).

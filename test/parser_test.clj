@@ -84,14 +84,14 @@
          (testing
            "Tests that a valid rule with multiple conditions works"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(X), padre(Y, X).") (statement/parse "hijo(pepe, juan).")) 0))
-           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(X), padre(Y, X).") (statement/parse "hija(pepe, cecilia).")) 0))))
+           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(Y), padre(Y, X).") (statement/parse "hijo(pepe, juan).")) 0))
+           (is (= (validate-from-rule (rule/parse "hija(X, Y) :- mujer(Y), padre(Y, X).") (statement/parse "hija(pepe, cecilia).")) 0))))
 
 (deftest test-validate-an-invalid-rule-with-multiple-conditions
          (testing
            "Tests that an invalid rule with multiple conditions works"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
-           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(X), padre(Y, X).") (statement/parse "hijo(juan, pepe).")) 1))))
+           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(Y), padre(Y, X).") (statement/parse "hijo(juan, pepe).")) 1))))
 
 (deftest test-validate-an-invalid-rule-with-one-condition
          (testing
@@ -114,3 +114,19 @@
            (is (= (query "mujer(juana).") "False"))
            (is (= (query "padre(juana, juan).") "False"))
            (is (= (query "varon(maria).") "False"))))
+
+(deftest test-query-with-a-rule
+         (testing
+           "Tests that given a query from a rule, the one is found"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (query "hijo(pepe, juan).") "True"))
+           (is (= (query "hija(pepe, cecilia).") "True"))
+           (is (= (query "test(test).") "True"))))
+
+(deftest test-invalid-query-with-a-rule
+         (testing
+           "Tests that given an invalid query from a rule, the one is found"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (query "hijo(marcos, juan).") "False"))
+           (is (= (query "nonexistentrule(pepe, cecilia).") "False"))
+           (is (= (query "test(bad).") "False"))))
