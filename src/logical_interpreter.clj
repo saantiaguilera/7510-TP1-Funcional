@@ -9,4 +9,4 @@
         (do
           (parser/strip-file (parser/inflate-file database-file))
           (parser/query query))
-        (catch Exception functionalException nil)))
+        (catch Exception ex nil)))
