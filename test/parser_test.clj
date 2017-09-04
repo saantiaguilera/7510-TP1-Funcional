@@ -73,3 +73,16 @@
            (strip-file (inflate-file "./res/test_fact_database.txt"))
            (is (= (validate-from-facts "invalid" ["juan" "pepe"]) 1))
            (is (= (validate-from-facts "mujer" ["anamarialuz"]) 1))))
+
+(deftest test-validate-a-rule-with-one-condition
+         (testing
+           "Tests that a valid rule with one condition works"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (validate-from-rule (rule/parse "algo(param) :- ejemplo(param).") (statement/parse "ejemplo(test).")) 0))))
+
+(deftest test-validate-a-rule-with-multiple-conditions
+         (testing
+           "Tests that a valid rule with multiple conditions works"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (validate-from-rule (rule/parse "hijo(X, Y) :- varon(X), padre(Y, X).") (statement/parse "hijo(pepe, juan).")) 0))))
+

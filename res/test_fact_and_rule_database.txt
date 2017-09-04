@@ -1,0 +1,10 @@
+varon(juan).
+varon(pepe).
+mujer(maria).
+mujer(cecilia).
+padre(juan, pepe).
+padre(maria, juan).
+padre(cecilia, pepe).
+ejemplo(test).
+hijo(X, Y) :- varon(X), padre(Y, X).
+hija(X, Y) :- mujer(X), padre(Y, X).
