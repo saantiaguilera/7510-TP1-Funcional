@@ -57,8 +57,7 @@
       "Do a query from the database"
       [what]
       ;; Build a statement from the query
-      (println
-        (let [query-statement (statement/parse what)]
+      (let [query-statement (statement/parse what)]
              ;; First we check in the rules to find if it matches one
              ;; We do a merge with OR. If we found at least one 0 then it means a rule matched and its true.
              (if (=
@@ -75,4 +74,4 @@
                      (validate-from-facts (:fact query-statement) (:params query-statement))
                      0)
                  "True"
-                 "False")))))
+                 "False"))))

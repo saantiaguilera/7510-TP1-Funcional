@@ -98,3 +98,19 @@
            "Tests that an invalid rule with one condition works"
            (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
            (is (= (validate-from-rule (rule/parse "algo(param) :- ejemplo(param).") (statement/parse "ejemplo(estenoesta).")) 1))))
+
+(deftest test-query-with-a-fact
+         (testing
+           "Tests that given a query of a fact, the one is found"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (query "mujer(maria).") "True"))
+           (is (= (query "padre(maria, juan).") "True"))
+           (is (= (query "varon(juan).") "True"))))
+
+(deftest test-invalid-query-with-a-fact
+         (testing
+           "Tests that given a query of a fact, the one is found"
+           (strip-file (inflate-file "./res/test_fact_and_rule_database.txt"))
+           (is (= (query "mujer(juana).") "False"))
+           (is (= (query "padre(juana, juan).") "False"))
+           (is (= (query "varon(maria).") "False"))))
