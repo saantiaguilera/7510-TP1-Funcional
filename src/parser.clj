@@ -11,16 +11,11 @@
 (defn strip-file
       "Get the facts/rules from an array. Creates 2 global variables, 'facts' and 'rules', both arrays of strings"
       [file-lines]
-      (do
-            (def facts [])
-            (def rules [])
-            (doseq [line file-lines]
-                    (if (boolean (re-find #" :- " line))
-                      (def rules (conj rules (rule/parse line)))
-                      (def facts (conj facts (statement/parse line)))))
-            (hash-map
-              :facts facts
-              :rules rules)))
+      (hash-map
+        :facts (for [item (filter #(not (boolean (re-find #" :- " %))) file-lines)]
+                    (statement/parse item))
+        :rules (for [item (filter #(boolean (re-find #" :- " %)) file-lines)]
+                    (rule/parse item))))
 
 (defn merge-result-list-as-or
       "Merges an array of results into a single value using OR. Eg: [1 1 1 0 1 1] -> 0 // [1 1 1] -> 1 // [0 0 0] -> 0"

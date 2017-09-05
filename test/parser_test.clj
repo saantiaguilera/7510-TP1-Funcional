@@ -28,22 +28,21 @@
            (def test_facts (:facts (strip-file (inflate-file "./res/test_fact_database.txt"))))
            (def test_rules (:rules (strip-file (inflate-file "./res/test_fact_database.txt"))))
            (is (count test_facts) 7)                             ;; Check that there are 7 facts
-           (is (= (:fact (get test_facts 0)) "varon"))           ;; Check that the first fact 'fact' is 'varon'
-           (is (= (:params (get test_facts 0) ["juan"])))        ;; Check that the first fact 'params' is 'juan'
-           (is (count test_rules) 0)                             ;; Check there are no rules
-           (is (= (get test_rules 0) nil))))                     ;; Check that the first accessed element is indeed nil
+           (is (= (:fact (nth test_facts 0)) "varon"))           ;; Check that the first fact 'fact' is 'varon'
+           (is (= (:params (nth test_facts 0) ["juan"])))        ;; Check that the first fact 'params' is 'juan'
+           (is (count test_rules) 0)))                           ;; Check there are no rules
 
 (deftest strip-rules-returns-them-correctly
          (testing
            "Tests that a wellformed vector of lines is stripped correctly into rules"
            (def test_rules (:rules (strip-file (inflate-file "./res/test_rule_database.txt"))))
            (is (count test_rules) 2)
-           (is (= (:fact (:statement (get test_rules 0))) "hijo")) ;; hijo(X, Y) :- varon(X), padre(Y, X).
-           (is (= (:params (:statement (get test_rules 0))) ["X" "Y"]))
-           (is (= (:fact (nth (:conditions (get test_rules 0)) 0)) "varon"))
-           (is (= (:params (nth (:conditions (get test_rules 0)) 0)) ["X"]))
-           (is (= (:fact (nth (:conditions (get test_rules 0)) 1)) "padre"))
-           (is (= (:params (nth (:conditions (get test_rules 0)) 1)) ["Y" "X"]))))
+           (is (= (:fact (:statement (nth test_rules 0))) "hijo")) ;; hijo(X, Y) :- varon(X), padre(Y, X).
+           (is (= (:params (:statement (nth test_rules 0))) ["X" "Y"]))
+           (is (= (:fact (nth (:conditions (nth test_rules 0)) 0)) "varon"))
+           (is (= (:params (nth (:conditions (nth test_rules 0)) 0)) ["X"]))
+           (is (= (:fact (nth (:conditions (nth test_rules 0)) 1)) "padre"))
+           (is (= (:params (nth (:conditions (nth test_rules 0)) 1)) ["Y" "X"]))))
 
 (deftest test-merge-results-as-or
          (testing
